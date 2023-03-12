@@ -1,2 +1,2 @@
-# pixel-palette-app
+# Pixel Palette App
 Pixel Palette desktop app
