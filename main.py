@@ -1,2 +1,16 @@
-from parts import play as Play
-from parts import create as Create
+from tkinter import *
+from parts import main_menu as Main_Menu
+
+def createWindow():
+    window = Tk()
+    window.title('Pixel Palette')
+    window.configure(bg='#F5454C', pady=40)
+    window.geometry('896x504')
+    window.minsize(width=896, height=504)
+    window.iconphoto(True, icon := PhotoImage(file='imgs/logo-sm.png'))
+    return window
+
+window = createWindow()
+Main_Menu.init(window)
+window.mainloop()
+
