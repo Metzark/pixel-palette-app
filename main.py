@@ -1,5 +1,5 @@
 from tkinter import *
-from parts import main_menu as Main_Menu
+from parts import menu
 
 def createWindow():
     window = Tk()
@@ -11,6 +11,6 @@ def createWindow():
     return window
 
 window = createWindow()
-Main_Menu.init(window)
+menu.Menu.init(window)
 window.mainloop()
 
