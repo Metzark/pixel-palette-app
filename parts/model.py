@@ -1,6 +1,4 @@
-#import PIL
-import os
-
+import PIL
 
 # This same model will be used in play and create modes. In play mode, users will update the play_grid
 # which will be compared against the filled_grid to determine correctness. In create mode, users will
@@ -25,12 +23,6 @@ class Model:
     def change_grid_cell(self, x, y):
         self.grid[x][y] = self.colors.index()
 
-
-
-
-
-
-
     # Generates a correctly filled in grid from a creation
     def generate_filled_grid_from_creation():
         pass
@@ -38,22 +30,6 @@ class Model:
     # Generates a correctly filled in grid from an image
     def generate_filled_grid_from_img():
         pass
-
-    #Saves the current displayed image to a file to be used later, asks for a name when saving
-    #Example:
-    ##FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF |;#FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF |
-    # This is two rows of 10 colors, thr rows being seperated by a ;
-    def saveCreation(name):
-        name = name + ".txt"
-        filePath = os.getcwd() + "\SavedCreations" + '\\' + name
-        file = open(filePath, "w") #Overwrites previous creation if it already existed
-        
-        for row in colors: #Saves all colors to file, seperates row members with a | and rows with a ;.
-            for color in colors:
-                file.write(color + " | ")
-            file.write(";")
-
-        file.close()
         
     # Files will be structured as follow:
     # For reading these, save the entire thing as a string, then use split on ":" and then split on the "|". Need to make sure the grid actually contains numbers and not strings as w3ll.
