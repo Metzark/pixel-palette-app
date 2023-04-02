@@ -2,7 +2,7 @@
 
 The Pixel Palette desktop app written in Python.
 
-# Getting Started For Dev
+# Getting Started
 
 Install Dependencies
 
