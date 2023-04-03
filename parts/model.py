@@ -30,7 +30,7 @@ class Model:
     # Generates a correctly filled in grid from an image
     def generate_filled_grid_from_img():
         pass
-        
+
     # Files will be structured as follow:
     # For reading these, save the entire thing as a string, then use split on ":" and then split on the "|". Need to make sure the grid actually contains numbers and not strings as w3ll.
     #  colors : 1st array of colors | 2nd array of colors | ............. | nth array of colors
