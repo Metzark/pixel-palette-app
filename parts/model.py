@@ -1,6 +1,4 @@
-#import PIL
-import os
-
+import PIL
 
 # This same model will be used in play and create modes. In play mode, users will update the play_grid
 # which will be compared against the filled_grid to determine correctness. In create mode, users will
@@ -24,12 +22,6 @@ class Model:
     
     def change_grid_cell(self, x, y):
         self.grid[x][y] = self.colors.index()
-
-
-
-
-
-
 
     # Generates a correctly filled in grid from a creation
     def generate_filled_grid_from_creation():
