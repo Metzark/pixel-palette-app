@@ -1,37 +1,37 @@
-import PIL
-
+import os
+import pygame
 
 # This same model will be used in play and create modes. In play mode, users will update the play_grid
 # which will be compared against the filled_grid to determine correctness. In create mode, users will
 # update the play grid until they are satisfied. Each grid willcontain integers values that each
 # correspond to an indice in the colors array. The colors array will just be an array of hex values
 # as strings
-
 class Model:
+    # Variable explanations:
+    # Toolbar: List of colors available to create with
+    # Selected Color: Currently selected color to paint with.
+    # Play Grid: Grid of colors
     def __init__(self, type, colors, width, height):
-        self.colors = []
+        self.toolbar = []
         self.selected_color = ''
         self.play_grid = [[-1] * width] * height
         if type == 'fill_from_creation':
             self.filled_grid = self.generate_filled_grid()
-        if type == 'fill_from_img':
-            self.filled_grid = self.generate_filled_grid_from_img()
-        if type == 'create_from_scratch':
+        if type == 'create_from_scratch': 
             self.play_grid = [[-1] * width] * height
 
+    # Adds/Changes one color in the colors
+    # TODO: Make sure user cannot use more than 10 colors
     def add_color(self, color):
         self.colors[color] = color
-    
+
+    #Changes one cell on the grid to a new color
     def change_grid_cell(self, x, y):
         self.grid[x][y] = self.colors.index()
 
 
-
-
-
-
-
     # Generates a correctly filled in grid from a creation
+    # Takes name (without file type) as input. Eg: test for test.txt
     def generate_filled_grid_from_creation():
         pass
     
@@ -54,7 +54,21 @@ class Model:
             file.write(";")
 
         file.close()
-    # Files will be structured as follow:
-    # For reading these, save the entire thing as a string, then use split on ":" and then split on the "|". Need to make sure the grid actually contains numbers and not strings as w3ll.
-    #  colors : 1st array of colors | 2nd array of colors | ............. | nth array of colors
-    #  #FFFFFF | #FFFFFF | #FFFFFF | #FFFFFF : 1 1 1 1 1 1 1 1 1 1 | 1 1 1 1 1 1 1 1 1 1 | ................. | 1 1 1 1 1 1 1 1 1 1
+
+    #Sets selected_color to the one chosen on the toolbar
+    def setSelectedColor(index):
+        selected_color = toolbar[index]
+
+    #Changes toolbar color at index to the desired color specified via hex code
+    def setToolbarColor(index, hexCode):
+        pass
+    
+    #Returns toolbar 
+    def getToolbar():
+        return toolbar
+
+    #Returns selected color
+    def getSelectedColor():
+        return selected_color
+    
+
