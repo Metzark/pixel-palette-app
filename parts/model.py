@@ -1,4 +1,5 @@
 import os
+
 # This same model will be used in play and create modes. In play mode, users will update the play_grid
 # which will be compared against the filled_grid to determine correctness. In create mode, users will
 # update the play grid until they are satisfied. Each grid willcontain integers values that each
@@ -15,6 +16,7 @@ class Model:
         self.play_grid = [[-1] * width] * height
         if type == 'fill_from_creation':
             self.filled_grid = self.generate_filled_grid()
+            
         if type == 'create_from_scratch': 
             self.play_grid = [[-1] * width] * height
 
@@ -29,6 +31,7 @@ class Model:
     #Changes one cell on the grid to a new color
     def change_grid_cell(self, x, y):
         self.grid[x][y] = selected_color
+
 
     #Generates a completely default grid of white & default colors array
     def generate_default_grid(self):
@@ -80,13 +83,26 @@ class Model:
     #Changes toolbar color at index to the desired color specified via hex code
     def setToolbarColor(index, hexCode):
         colors[index] = hexCode
+
+    # Generates a correctly filled in grid from a creation
+    def generate_filled_grid_from_creation():
+        pass
+
     
     #Returns toolbar color at index
     def getToolbarColor(index):
         return colors[index]
 
+
     #Returns selected color
     def getSelectedColor():
         return selected_color
+    
+
+
+    # Files will be structured as follow:
+    # For reading these, save the entire thing as a string, then use split on ";" and then split on the "|". Need to make sure the grid actually contains numbers and not strings as w3ll.
+    #  colors : 1st array of colors | 2nd array of colors | ............. | nth array of colors
+    #  #FFFFFF | #FFFFFF | #FFFFFF | #FFFFFF : 1 1 1 1 1 1 1 1 1 1 | 1 1 1 1 1 1 1 1 1 1 | ................. | 1 1 1 1 1 1 1 1 1 1
     
 

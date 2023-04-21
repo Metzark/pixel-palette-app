@@ -39,12 +39,12 @@ class Menu:
         finally:
             frame = Frame(window, bg="#d6d6d6",pady=20, padx=20)
             title = Label(frame, text='Play', fg='#121212', bg='#d6d6d6', font=('Lucida Sans', 32), pady=(10))
-            load_creation = Button(frame, text="Fill in a creation", fg="#0ED145", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10))
-            load_from_img = Button(frame, text='Fill in an image', fg="#00A8F3", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10))
+            load_creation = Button(frame, text="Fill in a local creation", fg="#0ED145", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.play_local(window))
+            load_from_gallery= Button(frame, text='Fill in a creation from gallery', fg="#00A8F3", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.play_gallery(window))
             back_btn = Button(frame, text="back", fg='#F5454C', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command= lambda: Menu.init(window))
             title.pack()
             load_creation.pack()
-            load_from_img.pack()
+            load_from_gallery.pack()
             back_btn.pack()
             frame.pack()
 
@@ -59,7 +59,7 @@ class Menu:
             frame = Frame(window, bg="#d6d6d6",pady=20, padx=20)
             title = Label(frame, text='Create', fg='#121212', bg='#d6d6d6', font=('Lucida Sans', 32), pady=(10))
             scratch = Button(frame, text="Start from scratch", fg="#0ED145", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.create_from_scratch(window))
-            load = Button(frame, text='Load a creation', fg="#00A8F3", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10))
+            load = Button(frame, text='Load a creation', fg="#00A8F3", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.update_existing_creation(window))
             back_btn = Button(frame, text="back", fg='#F5454C', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command= lambda: Menu.init(window))
             title.pack()
             scratch.pack()
@@ -68,6 +68,28 @@ class Menu:
             frame.pack()
 
 
+    # Creates Play with parameter 'local'
+    def play_local(window):
+        try:
+             for key in window.children:
+                window.children[key].destroy()
+        except:
+            pass
+        finally:
+            play.Play(window, type='local', exit_func=(lambda: Menu.init(window)))
+
+
+    # Creates Play with parameter 'gallery'
+    def play_gallery(window):
+        try:
+             for key in window.children:
+                window.children[key].destroy()
+        except:
+            pass
+        finally:
+            play.Play(window, type='gallery', exit_func=(lambda: Menu.init(window)))
+
+    # Creates Create with parameter 'fromscratch'
     def create_from_scratch(window):
         try:
              for key in window.children:
@@ -75,16 +97,17 @@ class Menu:
         except:
             pass
         finally:
-            pass
+            create.Create(window, 'fromscratch', exit_func=(lambda: Menu.init(window)))
 
 
-    def create_from_existing_creation(window):
+    # Creates Create with parameter 'updatecreation'
+    def update_existing_creation(window):
         try:
              for key in window.children:
                 window.children[key].destroy()
         except:
             pass
         finally:
-            pass
+            create.Create(window, 'updatecreation', exit_func=(lambda: Menu.init(window)))
 
         
