@@ -1,6 +1,7 @@
 from tkinter import *
-from parts import play
-from parts import create
+from tkinter import filedialog
+from modes import play
+from modes import create
 
 # Menu class contains functions for loading each menu. Each menu load function destroys
 # all window.children and inserts new content afterwards.
@@ -40,11 +41,9 @@ class Menu:
             frame = Frame(window, bg="#d6d6d6",pady=20, padx=20)
             title = Label(frame, text='Play', fg='#121212', bg='#d6d6d6', font=('Lucida Sans', 32), pady=(10))
             load_creation = Button(frame, text="Fill in a local creation", fg="#0ED145", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.play_local(window))
-            load_from_gallery= Button(frame, text='Fill in a creation from gallery', fg="#00A8F3", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.play_gallery(window))
             back_btn = Button(frame, text="back", fg='#F5454C', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command= lambda: Menu.init(window))
             title.pack()
             load_creation.pack()
-            load_from_gallery.pack()
             back_btn.pack()
             frame.pack()
 
@@ -76,18 +75,10 @@ class Menu:
         except:
             pass
         finally:
-            play.Play(window, type='local', exit_func=(lambda: Menu.init(window)))
-
-
-    # Creates Play with parameter 'gallery'
-    def play_gallery(window):
-        try:
-             for key in window.children:
-                window.children[key].destroy()
-        except:
-            pass
-        finally:
-            play.Play(window, type='gallery', exit_func=(lambda: Menu.init(window)))
+            path = filedialog.askopenfilename()
+            file = open(path, 'r')
+            text = file.readlines()
+            play.Play(window, text, exit_func=(lambda: Menu.init(window)))
 
     # Creates Create with parameter 'fromscratch'
     def create_from_scratch(window):
@@ -97,7 +88,7 @@ class Menu:
         except:
             pass
         finally:
-            create.Create(window, 'fromscratch', exit_func=(lambda: Menu.init(window)))
+            create.Create(window, type='fromscratch', text='', exit_func=(lambda: Menu.init(window)))
 
 
     # Creates Create with parameter 'updatecreation'
@@ -108,6 +99,9 @@ class Menu:
         except:
             pass
         finally:
-            create.Create(window, 'updatecreation', exit_func=(lambda: Menu.init(window)))
+            path = filedialog.askopenfilename()
+            file = open(path, 'r')
+            text = file.readlines()
+            create.Create(window, type="updatecreation", text=text, exit_func=(lambda: Menu.init(window)))
 
         
