@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
-from parts import play
-from parts import create
+from modes import play
+from modes import create
 
 # Menu class contains functions for loading each menu. Each menu load function destroys
 # all window.children and inserts new content afterwards.

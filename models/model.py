@@ -16,26 +16,85 @@ class Model:
         self.colors = []
         self.selected_color = IntVar()
         self.play_grid = []
-        for i in range(0, 20):
-            self.play_grid.append([-1, -1, -1, -1, -1, -1, -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1])
+        self.filled_grid = []
         if type == 'fromscratch':
             self.generate_default_grid()
+        if type == 'updatecreation':
+            self.generate_from_creation(text)
         if type == 'fill_from_creation': #only used in play mode
-            self.filled_grid = self.generate_from_creation(text)
+            self.generate_grids_play(text)
 
     #Generates a completely default grid of white & default colors array
     def generate_default_grid(self):
         #Default colors: [Red, Orange, Yellow, Green, Blue, Purple, Violet, Brown, White, Black]
         self.colors = ["#FF0000","#FF7F00","#FFFF00","#00FF00","#0000FF","#4B0082","#9400D3","#964B00","#FFFFFF","#000000"]
+        for i in range(0, 20):
+            self.play_grid.append([-1, -1, -1, -1, -1, -1, -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1])
 
     # Generates a correctly filled in grid from a creation and gets colors
     def generate_from_creation(self, text):
-        colors = text.split(':')[0]
+
+        colors = text[0].split(':')[0]
         colors = colors.split('|')
         self.colors = colors
-        grid = text.split(':')[1]
+        grid = text[0].split(':')[1]
         grid = grid.split('|')
+        for i in range(0, 20):
+            grid[i] = grid[i].split(' ')
+            for j in range(0, 20):
+                grid[i][j] = int(grid[i][j])
+        self.play_grid = grid
 
+    def generate_grids_play(self, text):
+        for i in range(0, 20):
+            self.play_grid.append([-1, -1, -1, -1, -1, -1, -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1])
+        colors = text[0].split(':')[0]
+        colors = colors.split('|')
+        self.colors = colors
+        grid = text[0].split(':')[1]
+        grid = grid.split('|')
+        for i in range(0, 20):
+            grid[i] = grid[i].split(' ')
+            for j in range(0, 20):
+                grid[i][j] = int(grid[i][j])
+        self.filled_grid = grid
+
+    #Sets selected_color to the one chosen on the toolbar
+    def setSelectedColor(self, color):
+        self.selected_color = color
+
+    #Changes toolbar color at index to the desired color specified via hex code
+    def setToolbarColor(self, index, hexCode):
+        self.colors[index] = hexCode
+
+        #Changes one cell on the grid to a new color
+    def change_grid_cell(self, x, y):
+        self.play_grid[x][y] = self.selected_color.get()
+
+    def get_grid_cell_color(self, x, y):
+        if self.play_grid[x][y] == -1:
+            return '#ffffff'
+        return self.getToolbarColor(self.play_grid[x][y])
+    
+    # returns the numeric value for the cell in the filled grid, for play
+    def get_cell_value(self, x, y):
+        return self.filled_grid[x][y]
+
+    #Returns toolbar color at index
+    def getToolbarColor(self, index):
+        return self.colors[index]
+
+    #Returns selected color
+    def getSelectedColor(self):
+        return self.selected_color.get()
+    
+    def check_completed_play(self):
+        for x in range(0,20):
+            for y in range(0,20):
+                if(self.play_grid[x][y] != self.filled_grid[x][y]):
+                    return False
+        return True
+    
     #Saves the current displayed image to a file to be used later, asks for a name when saving
     #Example:
     ##FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF |;#FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF |
@@ -60,26 +119,9 @@ class Model:
             text += row
         file.write(text)
         file.close()
-
-    #Sets selected_color to the one chosen on the toolbar
-    def setSelectedColor(self, color):
-        self.selected_color = color
-
-    #Changes toolbar color at index to the desired color specified via hex code
-    def setToolbarColor(self, index, hexCode):
-        self.colors[index] = hexCode
-
-        #Changes one cell on the grid to a new color
-    def change_grid_cell(self, x, y):
-        self.play_grid[x][y] = self.selected_color.get()
-
-    #Returns toolbar color at index
-    def getToolbarColor(self, index):
-        return self.colors[index]
-
-    #Returns selected color
-    def getSelectedColor(self):
-        return self.selected_color.get()
+    
+    def upload_creation(self):
+        pass
     
 
 
