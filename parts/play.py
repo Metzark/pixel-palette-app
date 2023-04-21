@@ -3,7 +3,7 @@ from parts import model
 
 
 class Play:
-    def __init__(self, window, exit_func):
+    def __init__(self, window, text, exit_func):
         self.current_color = IntVar()
         self.load_creation_local(window, exit_func)
         
@@ -14,7 +14,7 @@ class Play:
         for x in range(20):
             for y in range(20):
                 btn = Button(grid)
-                btn.config(height=1, width=2, bd=1, command=lambda btn=btn: self.change_cell_color(btn))
+                btn.config(bg='#ffffff', height=1, width=2, bd=1, command=lambda btn=btn: self.change_cell_color(btn))
                 btn.grid(column=x, row=y)
         
         #temp colors array
@@ -42,8 +42,9 @@ class Play:
 
     # Changes active color in model
     def change_active_color(self):
-        print(self.current_color.get())
+        pass
 
     # Change color in model and on the grid
     def change_cell_color(self, btn):
         btn.config(bg=self.hexs[self.current_color.get()])
+        print(btn.grid_info()["row"], btn.grid_info()["column"])

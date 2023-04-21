@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import filedialog
 from parts import play
 from parts import create
 
@@ -74,7 +75,10 @@ class Menu:
         except:
             pass
         finally:
-            play.Play(window, exit_func=(lambda: Menu.init(window)))
+            path = filedialog.askopenfilename()
+            file = open(path, 'r')
+            text = file.readlines()
+            play.Play(window, text, exit_func=(lambda: Menu.init(window)))
 
     # Creates Create with parameter 'fromscratch'
     def create_from_scratch(window):
@@ -84,7 +88,7 @@ class Menu:
         except:
             pass
         finally:
-            create.Create(window, 'fromscratch', exit_func=(lambda: Menu.init(window)))
+            create.Create(window, type='fromscratch', text='', exit_func=(lambda: Menu.init(window)))
 
 
     # Creates Create with parameter 'updatecreation'
@@ -95,6 +99,9 @@ class Menu:
         except:
             pass
         finally:
-            create.Create(window, 'updatecreation', exit_func=(lambda: Menu.init(window)))
+            path = filedialog.askopenfilename()
+            file = open(path, 'r')
+            text = file.readlines()
+            create.Create(window, type="updatecreation", text=text, exit_func=(lambda: Menu.init(window)))
 
         

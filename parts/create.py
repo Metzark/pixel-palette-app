@@ -4,8 +4,8 @@ from parts import model
 
 
 class Create:
-    def __init__(self, window, type, exit_func):
-        self.current_color = IntVar()
+    def __init__(self, window, type, text, exit_func):
+        self.model = model.Model(type=type, text=text)
         if type == 'fromscratch':
              self.create_from_scratch(window, exit_func)
         if type == 'updatecreation':
@@ -18,19 +18,19 @@ class Create:
         for x in range(20):
             for y in range(20):
                 btn = Button(grid)
-                btn.config(height=1, width=2, bd=1, command=lambda btn=btn: self.change_cell_color(btn))
+                btn.config(bg='#ffffff', height=1, width=2, bd=1, command=lambda btn=btn: self.change_cell_color(btn))
                 btn.grid(column=x, row=y)
         
          #temp colors array
-        hexs = ['#ffffff', '#000000', '#ff0000', '#00ff00', '#0000ff', '#888888', '#435324', '#180054', '#00ffff', '#ff00ff']
-        self.hexs = hexs
 
         colors = Frame(frame, background="#d6d6d6")
         colors_title = Label(colors, text='Colors', fg='#121212', bg='#d6d6d6', font=('Lucida Sans', 16), pady=(5))
         colors_title.pack()
+        self.rads = []
         for i in range (0, 10):
-            rad = Radiobutton(colors, text=i, font=('Lucida Sans', 14), fg='#121212', activebackground=hexs[i], selectcolor=hexs[i], indicator=0, value=i, variable=self.current_color, width=10)
+            rad = Radiobutton(colors, text=i, font=('Lucida Sans', 14), fg=self.model.getToolbarColor(i), activebackground=self.model.getToolbarColor(i), selectcolor=self.model.getToolbarColor(i), indicator=0, value=i, variable=self.model.selected_color, width=10)
             rad.pack(pady=5)
+            self.rads.append(rad)
 
         change_colors = Frame(frame, background='#d6d6d6')
         placeholder_title = Label(change_colors, text='', fg='#121212', bg='#d6d6d6', font=('Lucida Sans', 16), pady=(5))
@@ -58,19 +58,17 @@ class Create:
         title = Label(frame, text='Update your creation!', fg='#121212', bg='#d6d6d6', font=('Lucida Sans', 24), pady=(10))
         title.pack()
         frame.pack()
-    
-
-     # Changes active color in model
-    def change_active_color(self):
-        print(self.current_color.get())
 
     # Change color in model and on the grid
     def change_cell_color(self, btn):
-        btn.config(bg=self.hexs[self.current_color.get()])
+        self.model.change_grid_cell(btn.grid_info()["row"], btn.grid_info()["column"])
+        btn.config(bg=self.model.getToolbarColor(self.model.selected_color.get()))
 
     def change_color_value(self, idx):
         color = tkColorChooser.askcolor(title='Choose color')
-        self.hexs[idx] = color[1]
+        self.model.setToolbarColor(idx, color[1])
+        self.rads[idx].config(activebackground=self.model.getToolbarColor(idx), selectcolor=self.model.getToolbarColor(idx), fg=self.model.getToolbarColor(idx))
         
     def save_and_upload(self, exit):
+        self.model.saveCreation()
         exit()
