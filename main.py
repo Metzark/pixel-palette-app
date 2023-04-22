@@ -1,5 +1,6 @@
 from tkinter import *
 from parts import menu
+from parts import login
 
 def createWindow():
     window = Tk()
@@ -11,6 +12,5 @@ def createWindow():
     return window
 
 window = createWindow()
-menu.Menu.init(window)
+login.Login(window, menu.Menu.init)
 window.mainloop()
-

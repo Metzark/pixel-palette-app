@@ -12,7 +12,7 @@ class Menu:
         window.destroy()
         
     #Initializes the main menu (Login will eventually call this)
-    def init(window):
+    def init(window, user):
         try:
             for key in window.children:
                 window.children[key].destroy()
@@ -21,8 +21,8 @@ class Menu:
         finally:
             frame = Frame(window, bg="#d6d6d6",pady=20, padx=20)
             title = Label(frame, text='Pixel Palette', fg='#121212', bg='#d6d6d6', font=('Lucida Sans', 32), pady=(10))
-            play_btn = Button(frame, text="Play", fg="#0ED145", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.play_options(window))
-            make_btn = Button(frame, text='Create', fg="#00A8F3", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.create_options(window))
+            play_btn = Button(frame, text="Play", fg="#0ED145", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.play_options(window, user))
+            make_btn = Button(frame, text='Create', fg="#00A8F3", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.create_options(window, user))
             exit_btn = Button(frame, text="Exit", fg='#F5454C', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command= lambda: Menu.exit_app(window))
             title.pack()
             play_btn.pack()
@@ -31,7 +31,7 @@ class Menu:
             frame.pack()
 
     # List of the different play mode options. (Fill in a creation or an image)
-    def play_options(window):
+    def play_options(window, user):
         try:
             for key in window.children:
                 window.children[key].destroy()
@@ -40,7 +40,7 @@ class Menu:
         finally:
             frame = Frame(window, bg="#d6d6d6",pady=20, padx=20)
             title = Label(frame, text='Play', fg='#121212', bg='#d6d6d6', font=('Lucida Sans', 32), pady=(10))
-            load_creation = Button(frame, text="Fill in a local creation", fg="#0ED145", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.play_local(window))
+            load_creation = Button(frame, text="Fill in a local creation", fg="#0ED145", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.play_local(window, user))
             back_btn = Button(frame, text="back", fg='#F5454C', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command= lambda: Menu.init(window))
             title.pack()
             load_creation.pack()
@@ -48,7 +48,7 @@ class Menu:
             frame.pack()
 
     # List of different create mode options. (Start from scratch or load an existing creation)
-    def create_options(window):
+    def create_options(window, user):
         try:
              for key in window.children:
                 window.children[key].destroy()
@@ -57,9 +57,9 @@ class Menu:
         finally:
             frame = Frame(window, bg="#d6d6d6",pady=20, padx=20)
             title = Label(frame, text='Create', fg='#121212', bg='#d6d6d6', font=('Lucida Sans', 32), pady=(10))
-            scratch = Button(frame, text="Start from scratch", fg="#0ED145", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.create_from_scratch(window))
-            load = Button(frame, text='Load a creation', fg="#00A8F3", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.update_existing_creation(window))
-            back_btn = Button(frame, text="back", fg='#F5454C', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command= lambda: Menu.init(window))
+            scratch = Button(frame, text="Start from scratch", fg="#0ED145", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.create_from_scratch(window, user))
+            load = Button(frame, text='Load a creation', fg="#00A8F3", bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command=lambda: Menu.update_existing_creation(window, user))
+            back_btn = Button(frame, text="back", fg='#F5454C', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 24), bd=0, pady=(10), command= lambda: Menu.init(window, user))
             title.pack()
             scratch.pack()
             load.pack()
@@ -68,7 +68,7 @@ class Menu:
 
 
     # Creates Play with parameter 'local'
-    def play_local(window):
+    def play_local(window, user):
         try:
              for key in window.children:
                 window.children[key].destroy()
@@ -78,21 +78,21 @@ class Menu:
             path = filedialog.askopenfilename()
             file = open(path, 'r')
             text = file.readlines()
-            play.Play(window, text, exit_func=(lambda: Menu.init(window)))
+            play.Play(window, text, exit_func=(lambda: Menu.init(window, user)))
 
     # Creates Create with parameter 'fromscratch'
-    def create_from_scratch(window):
+    def create_from_scratch(window, user):
         try:
              for key in window.children:
                 window.children[key].destroy()
         except:
             pass
         finally:
-            create.Create(window, type='fromscratch', text='', exit_func=(lambda: Menu.init(window)))
+            create.Create(window, type='fromscratch', text='', exit_func=(lambda: Menu.init(window, user)), user=user)
 
 
     # Creates Create with parameter 'updatecreation'
-    def update_existing_creation(window):
+    def update_existing_creation(window, user):
         try:
              for key in window.children:
                 window.children[key].destroy()
@@ -102,6 +102,6 @@ class Menu:
             path = filedialog.askopenfilename()
             file = open(path, 'r')
             text = file.readlines()
-            create.Create(window, type="updatecreation", text=text, exit_func=(lambda: Menu.init(window)))
+            create.Create(window, type="updatecreation", text=text, exit_func=(lambda: Menu.init(window, user)), user=user)
 
         

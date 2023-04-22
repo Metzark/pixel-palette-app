@@ -1,5 +1,5 @@
 from tkinter import *
-from models import model
+from data import model
 
 
 class Play:
@@ -30,7 +30,7 @@ class Play:
 
         menu_btns = Frame(frame, background="#d6d6d6")
         exit_btn = Button(menu_btns, text="Exit", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(10),command=exit_func)
-        complete_btn = Button(menu_btns, text="Complete", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(10), command=lambda: self.complete(exit_func))
+        complete_btn = Button(menu_btns, text="Complete", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(10), command=lambda: self.complete(window, exit_func))
         exit_btn.grid(column=0, row= 0)
         complete_btn.grid(column=1, row=0)
         title.grid(column=0, row=0)
@@ -46,9 +46,27 @@ class Play:
             self.model.change_grid_cell(btn.grid_info()["row"], btn.grid_info()["column"])
             btn.config(bg=self.model.getToolbarColor(self.model.selected_color.get()))
 
-    def complete(self, exit):
+    def complete(self, window, exit):
         if self.model.check_completed_play():
-            self.show_completed(exit)
+            self.show_completed(window,exit)
 
-    def show_completed(self, exit):
-        pass
+    def show_completed(self, window, exit):
+        try:
+            for key in window.children:
+                window.children[key].destroy()
+        except:
+            pass
+        finally:
+            frame = Frame(window, bg="#d6d6d6",pady=5, padx=20)
+            title = Label(frame, text='Nice job!', fg='#121212', bg='#d6d6d6', font=('Lucida Sans', 24), pady=(10))
+            exit_btn = Button(frame, text="Exit", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(5),command=exit)
+            grid = Frame(frame)
+            for x in range(20):
+                for y in range(20):
+                    btn = Button(grid)
+                    btn.config(bg=self.model.get_grid_cell_color(x,y), height=1, width=2, bd=0)
+                    btn.grid(column=y, row=x)
+            title.pack()
+            grid.pack()
+            exit_btn.pack()
+            frame.pack()

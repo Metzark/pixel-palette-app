@@ -1,17 +1,17 @@
 from tkinter import *
 import tkinter.colorchooser as tkColorChooser
-from models import model
+from data import model
 
 
 class Create:
-    def __init__(self, window, type, text, exit_func):
+    def __init__(self, window, type, text, exit_func, user):
         self.model = model.Model(type=type, text=text)
         if type == 'fromscratch':
-             self.create_from_scratch(window, exit_func)
+             self.create_from_scratch(window, exit_func, user)
         if type == 'updatecreation':
-             self.update_creation(window, exit_func)
+             self.update_creation(window, exit_func, user)
 
-    def create_from_scratch(self, window, exit_func):
+    def create_from_scratch(self, window, exit_func, user):
         frame = Frame(window, bg="#d6d6d6",pady=20, padx=20)
         title = Label(frame, text='Create a picture!', fg='#121212', bg='#d6d6d6', font=('Lucida Sans', 24), pady=(10))
         grid = Frame(frame)
@@ -39,9 +39,11 @@ class Create:
 
         menu_btns = Frame(frame, background="#d6d6d6")
         exit_btn = Button(menu_btns, text="Exit", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(10),command=exit_func)
-        save_btn = Button(menu_btns, text="Save and Upload", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(10), command=lambda: self.save(exit_func))
+        save_btn = Button(menu_btns, text="Save", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(10), command=lambda: self.save(exit_func))
+        upload_btn = Button(menu_btns, text="Save and Upload", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(10), command=lambda: self.upload(exit_func, user))
         exit_btn.grid(column=0, row= 0)
         save_btn.grid(column=1, row=0)
+        upload_btn.grid(column=2,row=0)
 
         title.grid(column=0, row=0)
         grid.grid(column=0, row=1, padx=15)
@@ -51,7 +53,7 @@ class Create:
         frame.pack()
 
 
-    def update_creation(self, window, exit_func):
+    def update_creation(self, window, exit_func, user):
         frame = Frame(window, bg="#d6d6d6",pady=20, padx=20)
         title = Label(frame, text='Update your creation!', fg='#121212', bg='#d6d6d6', font=('Lucida Sans', 24), pady=(10))
         grid = Frame(frame)
@@ -82,9 +84,11 @@ class Create:
         menu_btns = Frame(frame, background="#d6d6d6")
         exit_btn = Button(menu_btns, text="Exit", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(10),command=exit_func)
         save_btn = Button(menu_btns, text="Save", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(10), command=lambda: self.save(exit_func))
-        upload_btn = Button(menu_btns, text="Save", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(10), command=lambda: self.save(exit_func))
+        upload_btn = Button(menu_btns, text="Save and Upload", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(10), command=lambda: self.upload(exit_func, user))
         exit_btn.grid(column=0, row= 0)
         save_btn.grid(column=1, row=0)
+        upload_btn.grid(column=2,row=0)
+
 
         title.grid(column=0, row=0)
         grid.grid(column=0, row=1, padx=15)
@@ -107,5 +111,7 @@ class Create:
         self.model.saveCreation()
         exit()
 
-    def upload(self):
-        pass
+    def upload(self, exit, user):
+        path = self.model.saveCreation()
+        self.model.upload_creation(path, user)
+        exit()

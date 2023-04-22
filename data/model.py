@@ -1,6 +1,7 @@
 import os
 from tkinter import filedialog
 from tkinter import *
+from data import airtable
 
 # This same model will be used in play and create modes. In play mode, users will update the play_grid
 # which will be compared against the filled_grid to determine correctness. In create mode, users will
@@ -95,7 +96,7 @@ class Model:
                     return False
         return True
     
-    #Saves the current displayed image to a file to be used later, asks for a name when saving
+    #Saves the current displayed image to a file and returns file name
     #Example:
     ##FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF |;#FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF | #FFFFF |
     # This is two rows of 10 colors, thr rows being seperated by a ;
@@ -119,9 +120,11 @@ class Model:
             text += row
         file.write(text)
         file.close()
+        return path
     
-    def upload_creation(self):
-        pass
+    def upload_creation(self, path, user):
+        airtable.upload_creation(path, user)
+
     
 
 
