@@ -39,7 +39,7 @@ class Create:
 
         menu_btns = Frame(frame, background="#d6d6d6")
         exit_btn = Button(menu_btns, text="Exit", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(10),command=exit_func)
-        save_btn = Button(menu_btns, text="Save and Upload", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(10), command=lambda: self.save_and_upload(exit_func))
+        save_btn = Button(menu_btns, text="Save and Upload", fg='#121212', bg='#d6d6d6', activebackground='#d6d6d6', font=('Lucida Sans', 18), bd=0, pady=(10), command=lambda: self.save(exit_func))
         exit_btn.grid(column=0, row= 0)
         save_btn.grid(column=1, row=0)
 
